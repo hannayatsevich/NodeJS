@@ -1,0 +1,87 @@
+doctype html
+html(lang="en")
+  head
+
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+
+    style
+      include ../style.css
+
+    title
+  body
+    h1 User Profile
+
+    include error.pug
+
+    form(method="GET" action="/service" name="profile")
+
+      label(for="firstname") First Name
+      input(type="text" name="firstname" id="firstname" value= firstname)
+      br
+
+      label(for="secondname") Second Name
+      input(type="text" name="secondname" id="secondname" value= secondname)
+      br
+
+      label(for="age") Age
+      input(type="number" name="age" id="age" value= age)
+      br
+
+      label(for="email") Email
+      input(type="email" name="email" id="email" value= email)
+      br
+
+      label(for="tel") Phone number
+      input(type="tel" name="tel" id="tel" value= tel)
+      br
+
+      p Sex
+      label(class = "radio" for="female") Female
+      input(type="radio" name="sex" value = "female" id="female" checked= female)
+      label(class = "radio" for="male") Male
+      input(type="radio" name="sex" value = "male" id="male" checked= male)
+
+      p Interests
+      input(type="checkbox" name="interests" value = "books" id="books" checked= books)
+      label(class = "checkbox" for="books") books
+      input(type="checkbox" name="interests" value = "movies" id="movies" checked= movies)
+      label(class = "checkbox" for="movies") movies
+      input(type="checkbox" name="interests" value = "ballet" id="ballet" checked= ballet)
+      label(class = "checkbox" for="ballet") ballet
+      br
+
+      label(for="color") Pick your favourite color
+      input(type="color" name="color" id="color" value= color)
+      br
+
+      label(for="birthdate") Birth date
+      input(type="date" name="birthdate" id="birthdate" value= birthdate)
+      br
+
+      label(for="birthdatetime") Birth date-time
+      input(type="datetime-local" name="birthdatetime" id="birthdatetime" value= birthdatetime)
+      br
+
+      label(for="birthmonth") Birth month
+      input(type="month" name="birthmonth" id="birthmonth" value= birthmonth)
+      br
+
+      label(for="birthweek") Birth week
+      input(type="week" name="birthweek" id="birthweek" value= birthweek)
+      br
+
+      label(for="photo") Photo
+      input(type="file" name="photo" id="photo" value= photo)
+      br
+
+      label(for="range") Range
+      input(type="range" name="range" id="range" value= range)
+      br
+
+      label(for="psw") Password
+      input(type="password" name="psw" id="psw" value= psw)
+      br
+
+      input(type="submit")
