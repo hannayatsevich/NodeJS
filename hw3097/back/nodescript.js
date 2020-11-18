@@ -8,7 +8,7 @@ const port  = 3010;
 
 let validationInfo = {
   isValid: true,
-  queryObject = {},
+  queryObject: {},
   errorMessage: '',
 };
 
@@ -48,7 +48,7 @@ webserver.get('/form', (req, res, next) => {
 
     validationInfo = {
       isValid: true,
-      queryObject = {},
+      queryObject: {},
       errorMessage: '',
     };
 
@@ -67,7 +67,7 @@ webserver.get('/service', (req, res, next) => {
   if(validationInfo.isValid) {
     validationInfo = {
       isValid: true,
-      queryObject = {},
+      queryObject: {},
       errorMessage: '',
     };
     res.send(formDataString(req.query));
