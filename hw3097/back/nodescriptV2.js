@@ -45,7 +45,7 @@ webserver.get('/form', (req, res, next) => {
     let pageData = validationInfo.queryObject;
     if(validationInfo.isValid === false) {
       let text = `h3(class="error") Please, fill the form carefully \n${validationInfo.errorMessage}`
-      console.log(text);
+      //console.log(text);
       fs.writeFile(errorFilePath, text, (err) => {
         if (err) throw err;
         //console.log('The file has been saved!');
