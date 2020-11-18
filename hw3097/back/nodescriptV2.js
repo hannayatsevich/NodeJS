@@ -53,7 +53,10 @@ webserver.get('/form', (req, res, next) => {
       fs.writeFile(errorFilePath, text, (err) => {
         if (err) throw err;
         //console.log('The file has been saved!');
-        res.render('index', pageData)
+        res.render('index', pageData);
+        fs.writeFile(errorFilePath, '', (err) => {
+          if (err) throw err;
+        })
       })
     }
     else {
@@ -65,7 +68,7 @@ webserver.get('/form', (req, res, next) => {
       fs.writeFile(errorFilePath, '', (err) => {
         if (err) throw err;
         //console.log('The file has been saved!');
-        res.render('index', pageData)
+        res.render('index', pageData);
       })
     }
 });
@@ -87,7 +90,12 @@ webserver.get('/service', (req, res, next) => {
       queryObject: {...initValues},
       errorMessage: '',
     };
-    res.send(formDataString(req.query));
+    let errorFilePath = '../front/views/error.pug';
+    fs.writeFile(errorFilePath, '', (err) => {
+      if (err) throw err;
+      //console.log('The file has been saved!');
+      res.send(formDataString(req.query));
+    })
   }
   else {
     res.redirect('/form');
@@ -104,13 +112,13 @@ const check = (queryObject) => {
   for( let key in queryObject) {
     switch(key) {
       case 'firstname':
-        if(queryObject[key].length < 2)
-          errorMessage += '  li(class="error") minimum first name length should be 10 \n';
+        if(queryObject[key].length < 5)
+          errorMessage += '  li(class="error") minimum first name length should be 5 \n';
         else needValidation--;
         break;
       case 'secondname':
-        if(queryObject[key].length < 2)
-          errorMessage += '  li(class="error") minimum second name length should be 10 \n';
+        if(queryObject[key].length < 5)
+          errorMessage += '  li(class="error") minimum second name length should be 5 \n';
         else needValidation--;
         break;
       case 'age':

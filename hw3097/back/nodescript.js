@@ -94,13 +94,13 @@ const check = (queryObject) => {
   for( let key in queryObject) {
     switch(key) {
       case 'firstname':
-        if(queryObject[key].length < 2)
-          errorMessage += '<li class="error">minimum first name length should be 10 </li>';
+        if(queryObject[key].length < 5)
+          errorMessage += '<li class="error">minimum first name length should be 5 </li>';
         else needValidation--;
         break;
       case 'secondname':
-        if(queryObject[key].length < 2)
-          errorMessage += '<li class="error">minimum second name length should be 10 </li>';
+        if(queryObject[key].length < 5)
+          errorMessage += '<li class="error">minimum second name length should be 5 </li>';
         else needValidation--;
         break;
       case 'age':
