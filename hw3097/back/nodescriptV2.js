@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const fs = require('fs');
 
 const webserver = express();
@@ -66,9 +65,6 @@ webserver.get('/form', (req, res, next) => {
       fs.writeFile(errorFilePath, '', (err) => {
         if (err) throw err;
         //console.log('The file has been saved!');
-        res.header("Cache-Control", "no-cache, no-store, must-revalidate");
-        res.header("Pragma", "no-cache");
-        res.header("Expires", 0);
         res.render('index', pageData)
       })
     }
