@@ -6,7 +6,11 @@ const webserver = express();
 
 const port  = 3010;
 
-let validationInfo = {};
+let validationInfo = {
+  isValid: true,
+  queryObject = {},
+  errorMessage: '',
+};
 
 //работает отлично без доп запроса для стилей, но как тогда вернуть заполненную форму?
 //webserver.use(express.static('../front'));
@@ -16,7 +20,7 @@ webserver.get('/form', (req, res, next) => {
   fs.readFile(filePath, 'utf8', (err, text) => {
     let newText = text;
 
-    if(validationInfo.isValid === false) {
+    if(!validationInfo.isValid) {
       newText = text.split('</h1>').join(`</h1><h3 class="error">Please, fill the form carefully</h3>${validationInfo.errorMessage}`);
 
       let savedPageData = validationInfo.queryObject;
@@ -41,6 +45,13 @@ webserver.get('/form', (req, res, next) => {
       }
 
     }
+
+    validationInfo = {
+      isValid: true,
+      queryObject = {},
+      errorMessage: '',
+    };
+
     res.send(newText);
   });
 });
@@ -54,8 +65,12 @@ webserver.get('/service', (req, res, next) => {
   validationInfo = check(req.query);
 
   if(validationInfo.isValid) {
+    validationInfo = {
+      isValid: true,
+      queryObject = {},
+      errorMessage: '',
+    };
     res.send(formDataString(req.query));
-    validationInfo = {};
   }
   else {
     res.redirect('/form');

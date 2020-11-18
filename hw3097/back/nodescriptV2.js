@@ -46,6 +46,11 @@ webserver.get('/form', (req, res, next) => {
     if(validationInfo.isValid === false) {
       let text = `h3(class="error") Please, fill the form carefully \n${validationInfo.errorMessage}`
       //console.log(text);
+      validationInfo = {
+        isValid: true,
+        queryObject: {...initValues},
+        errorMessage: '',
+      };
       fs.writeFile(errorFilePath, text, (err) => {
         if (err) throw err;
         //console.log('The file has been saved!');
@@ -53,7 +58,11 @@ webserver.get('/form', (req, res, next) => {
       })
     }
     else {
-      validationInfo.queryObject = {...initValues};
+      validationInfo = {
+        isValid: true,
+        queryObject: {...initValues},
+        errorMessage: '',
+      };
       fs.writeFile(errorFilePath, '', (err) => {
         if (err) throw err;
         //console.log('The file has been saved!');
@@ -77,8 +86,12 @@ webserver.get('/service', (req, res, next) => {
   validationInfo = check(req.query);
 
   if(validationInfo.isValid) {
+    validationInfo = {
+      isValid: true,
+      queryObject: {...initValues},
+      errorMessage: '',
+    };
     res.send(formDataString(req.query));
-    validationInfo = {};
   }
   else {
     res.redirect('/form');
