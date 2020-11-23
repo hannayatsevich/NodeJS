@@ -1,0 +1,20 @@
+
+input[type='radio'] {
+  margin-left: 23px;
+}
+label {
+  margin-left: 10px;
+}
+
+input[type='button'] {
+  margin-top: 10px;
+  margin-left: 23px;
+}
+
+.buttonsWrapper {
+  margin-top: 20px;
+}
+
+.buttonsWrapper button:not(:last-child) {
+  margin-right: 20px;
+}

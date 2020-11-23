@@ -12,9 +12,6 @@ webserver.use(express.json());
 const port = 3012;
 const logFilePath = path.join(__dirname, '/log/_server.log');
 
-//console.log(logFilePath);
-
-
 webserver.listen( port , () => {
   logLineSync(logFilePath, `start listening port ${port}`);
 });
@@ -27,6 +24,11 @@ webserver.get('/vote-page', (req, res) => {
 webserver.get('/script.js', (req, res) => {
   logLineSync(logFilePath, `/script.js request`);
   res.sendFile(path.join(__dirname, '../front/script.js'));
+});
+
+webserver.get('/style.css', (req, res) => {
+  logLineSync(logFilePath, `/style.css request`);
+  res.sendFile(path.join(__dirname, '../front/style.css'));
 });
 
 webserver.get('/variants', (req, res) => {
@@ -72,6 +74,47 @@ webserver.post('/stat', (req, res) => {
     }
   });
 });
+
+// webserver.post('/stat-download', (req, res) => {
+//   logLineSync(logFilePath, `/stat-download`);
+//   const statisticsFilePath = path.join(__dirname, './data/statistics.json');
+
+
+
+//   fs.readFile(statisticsFilePath, "utf8", function(error, data) {
+//     if(error) {
+//       console.log(error)
+//       logLineSync(logFilePath, `readFile "${statisticsFilePath}" error `);
+//       res.setHeader('Content-type', 'application/json');
+//       res.status(404).send({errorCode: 0, errorMessage: "statistics didn't found"});
+//     }
+//     else {
+//       let dataParced = JSON.parse(data);
+//       let processedData = dataParced.sort( (a,b) => a.ord - b.ord).map((elem) => ({
+//         code: elem.code,
+//         count: elem.count,
+//       }));
+
+//       const clientAccept = req.headers.accept;
+//       if (clientAccept === "application/json") {
+//         console.log('here')
+//         res.setHeader("Content-Type", "application/json");
+//         res.setHeader("Content-Disposition", 'attachment; filename="stat.json"');
+//         //res.send(processedData);
+//         res.sendFile(statisticsFilePath)
+//       }
+//       else if (clientAccept === "application/xml") {
+//         res.setHeader("Content-Type", "application/xml");
+//         res.send("<busket><count>5</count><price>777</price></busket>");
+//       }
+//       else {
+//         res.setHeader("Content-Type", "text/plain");
+//         res.send("count=5 price=777");
+//       }
+//       logLineSync(logFilePath, `statistics data sent ${JSON.stringify(processedData)}`);
+//     }
+//   });
+// });
 
 webserver.post('/vote', (req, res) => {
   logLineSync(logFilePath, `/vote request`);

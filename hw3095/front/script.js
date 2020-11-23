@@ -21,6 +21,8 @@ async function getInitPageInfo () {
 
     if(Array.isArray(statisticsData) && statisticsData.length) {
 
+      let statWrapper = document.createElement('div');
+
       let statHeader = document.createElement('h2');
       statHeader.textContent = 'Colors statistics:'
       let statList = document.createElement('ul');
@@ -31,13 +33,16 @@ async function getInitPageInfo () {
         statList.append(li);
       });
 
-      wrapper.append(statHeader, statList)
+      statWrapper.append(statHeader, statList);
+      wrapper.append(statWrapper);
     }
     else {
       console.warn('statistics is empty')
     };
 
     if(Array.isArray(variantsData) && variantsData.length) {
+
+      let voteWrapper = document.createElement('div');
 
       let voteQuestion = document.createElement('h2');
       voteQuestion.textContent = 'Choose your favourite color:';
@@ -59,82 +64,159 @@ async function getInitPageInfo () {
 
       let submitBtn = document.createElement('input');
       submitBtn.type = 'button';
-      submitBtn.value = 'send';
+      submitBtn.value = 'Send answer';
       submitBtn.onclick = () => sendVote();
 
       form.append(submitBtn);
-
-      wrapper.append(voteQuestion, form)
+      voteWrapper.append(voteQuestion, form);
+      wrapper.append(voteWrapper);
     }
     else {
       let errorMessage = document.createElement('h2');
       errorMessage.textContent = 'Voting is unavaliable at the moment.'
       wrapper.append(errorMessage);
     };
-
+    //wrapper.append(composeButtonsBlock());
     app.append(wrapper);
   }
   catch (error) {
     console.error(`Error message: ${error.message}`);
-  }
+  };
 };
 
 async function sendVote() {
   let radioChecked = document.querySelector('input[type="radio"]:checked');
 
-  try{
-    let voteRequestOptions = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({[radioChecked.name]: radioChecked.value})
-    };
-    const voteResponse = await fetch('/vote', voteRequestOptions);
-
-    let app = document.querySelector('.app');
-    let oldWrapper = document.querySelector('.wrapper');
-    app.removeChild(oldWrapper);
-
-    if(voteResponse.status === 200) {
-
-      let statisticsRequestOptions = {
+  if (radioChecked) {
+    try {
+      let voteRequestOptions = {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ [radioChecked.name]: radioChecked.value }),
       };
-      const statisticsResponse = await fetch('/stat', statisticsRequestOptions);
-      const statisticsData = await statisticsResponse.json();
+      const voteResponse = await fetch("/vote", voteRequestOptions);
 
-      let wrapper = document.createElement('div');
-      wrapper.className = 'wrapper';
+      let app = document.querySelector(".app");
+      let oldWrapper = document.querySelector(".wrapper");
+      app.removeChild(oldWrapper);
 
-      if(Array.isArray(statisticsData) && statisticsData.length) {
+      if (voteResponse.status === 200) {
+        let statisticsRequestOptions = {
+          method: "POST",
+        };
+        const statisticsResponse = await fetch("/stat", statisticsRequestOptions
+        );
+        const statisticsData = await statisticsResponse.json();
 
-        let statHeader = document.createElement('h2');
-        statHeader.textContent = 'Colors statistics:'
-        let statList = document.createElement('ul');
+        let wrapper = document.createElement("div");
+        wrapper.className = "wrapper";
 
-        statisticsData.sort( (a, b) => a.ord - b.ord).forEach( item => {
-          let li = document.createElement('li');
-          li.textContent = `${item.code}: ${item.count}`;
-          statList.append(li);
-        });
+        if (Array.isArray(statisticsData) && statisticsData.length) {
+          let statWrapper = document.createElement("div");
 
-        wrapper.append(statHeader, statList);
+          let statHeader = document.createElement("h2");
+          statHeader.textContent = "Colors statistics:";
+          let statList = document.createElement("ul");
+
+          statisticsData
+            .sort((a, b) => a.ord - b.ord)
+            .forEach((item) => {
+              let li = document.createElement("li");
+              li.textContent = `${item.code}: ${item.count}`;
+              statList.append(li);
+            });
+
+          statWrapper.append(statHeader, statList);
+          wrapper.append(statWrapper);
+        }
+        else {
+          let errorMessage = document.createElement("h2");
+          errorMessage.textContent = "Voting is unavaliable at the moment.";
+          wrapper.append(errorMessage);
+        }
+
+        //wrapper.append(composeButtonsBlock());
+        app.append(wrapper);
       }
       else {
-        let errorMessage = document.createElement('h2');
-        errorMessage.textContent = 'Voting is unavaliable at the moment.'
-        wrapper.append(errorMessage);
-      };
-
-      app.append(wrapper);
+        alert("Vote hasn't been accepted. Please, fill the form again.");
+        getInitPageInfo();
+      }
     }
-    else {
-      alert("Vote hasn't been accepted. Please, fill the form again.");
-      getInitPageInfo();
+    catch (error) {
+      console.error(`Error message: ${error.message}`);
     }
   }
-  catch (error) {
-    console.error(`Error message: ${error.message}`);
-  }
+  else alert('Please, choose one variant!')
 };
+
+function composeStatBlock(statisticsData) {
+  let statWrapper = document.createElement('div');
+
+  let statHeader = document.createElement('h2');
+  statHeader.textContent = 'Colors statistics:'
+  let statList = document.createElement('ul');
+
+  statisticsData.sort( (a, b) => a.ord - b.ord).forEach( item => {
+    let li = document.createElement('li');
+    li.textContent = `${item.code}: ${item.count}`;
+    statList.append(li);
+  });
+
+  statWrapper.append(statHeader, statList);
+  return statWrapper;
+};
+
+// function composeButtonsBlock() {
+//   let buttonsWrapper = document.createElement('div');
+//   buttonsWrapper.className = 'buttonsWrapper';
+
+//   let jsonBtn = document.createElement('button');
+//   jsonBtn.textContent = 'Download statistics in json';
+//   jsonBtn.onclick = () => downloadJson();
+
+//   let XMLBtn = document.createElement('button');
+//   XMLBtn.textContent = 'Download statistics in XML';
+//   XMLBtn.onclick = () => downloadXML();
+
+//   let HTMLBtn = document.createElement('button');
+//   HTMLBtn.textContent = 'Download statistics in HTML';
+//   HTMLBtn.onclick = () => downloadHTML();
+
+//   buttonsWrapper.append(jsonBtn, XMLBtn, HTMLBtn);
+
+//   return buttonsWrapper;
+// };
+
+// async function downloadJson() {
+//   let downloadStatRequestOptions = {
+//     method: "POST",
+//     headers: {
+//       "Accept": "application/json",
+//     },
+//   };
+//   const downloadStatResponse = await fetch("/stat-download", downloadStatRequestOptions);
+//   console.log(downloadStatResponse)
+// };
+
+// async function downloadXML() {
+//   let downloadStatRequestOptions = {
+//     method: "POST",
+//     headers: {
+//       "Accept": "application/xml",
+//     },
+//   };
+//   const downloadStatResponse = await fetch("/stat-download", downloadStatRequestOptions);
+// };
+
+// async function downloadHTML() {
+//   let downloadStatRequestOptions = {
+//     method: "POST",
+//     headers: {
+//       "Accept": "text/html",
+//     },
+//   };
+//   const downloadStatResponse = await fetch("/stat-download", downloadStatRequestOptions);
+// };
