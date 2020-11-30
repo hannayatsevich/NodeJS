@@ -46,12 +46,45 @@ webserver.get('/variants', (req, res) => {
 });
 
 webserver.get('/stat', (req, res) => {
-  const statisticsFilePath = path.resolve(__dirname, 'data', 'statistics.json');
+  if( !fs.existsSync(dynamicStatisticsFilePath)) {
+    fs.readFile(variantsFilePath, "utf8", function(error, data) {
+      if(error) {
+        logLineSync(logFilePath, `readFile "${variantsFilePath}" error `);
+        res.setHeader('Content-type', 'application/json');
+        res.setHeader("Cache-Control","public, max-age=0");
+        res.status(404).send({errorCode: 0, errorMessage: "statistics didn't found"});
+      }
+      else {
 
-  fs.readFile(statisticsFilePath, "utf8", function(error, data) {
+        let dataParced = JSON.parse(data);
+        let newData = dataParced.map(elem => ({
+          code: elem.code,
+          text: elem.text,
+          ord: elem.ord,
+          count: 0,
+        }));
+
+        fs.writeFile(dynamicStatisticsFilePath, JSON.stringify(newData), function(error, data) {
+          if(error) {
+            logLineSync(logFilePath, `writeFile "${dynamicStatisticsFilePath}" error, initial statistics wasn't saved`);
+            res.setHeader('Content-type', 'application/json');
+            res.status(404).send({errorCode: 0, errorMessage: "statistics didn't found"});
+          }
+          else {
+            getAndSendStat(req, res);
+          }
+        });
+
+      }
+    })
+  }
+  else getAndSendStat(req, res);
+});
+
+const getAndSendStat = (req, res) => {
+  fs.readFile(dynamicStatisticsFilePath, "utf8", function(error, data) {
     if(error) {
-      console.log(error)
-      logLineSync(logFilePath, `readFile "${statisticsFilePath}" error `);
+      logLineSync(logFilePath, `readFile "${dynamicStatisticsFilePath}" error `);
       res.setHeader('Content-type', 'application/json');
       res.setHeader("Cache-Control","public, max-age=0");
       res.status(404).send({errorCode: 0, errorMessage: "statistics didn't found"});
@@ -65,15 +98,12 @@ webserver.get('/stat', (req, res) => {
 
       const clientAccept = req.headers.accept;
       if (clientAccept === "application/json") {
-        console.log('here')
         res.setHeader("Content-Type", "application/json");
         res.setHeader("Cache-Control","public, max-age=0");
         res.send(processedData);
         logLineSync(logFilePath, `statistics data sent in application/json ${JSON.stringify(processedData)}`);
       }
       else if (clientAccept === "application/xml") {
-
-        console.log('here2')
         res.setHeader("Content-Type", "application/xml");
         res.setHeader("Cache-Control","public, max-age=0");
         let xmlString = '<busket>';
@@ -83,8 +113,6 @@ webserver.get('/stat', (req, res) => {
         logLineSync(logFilePath, `statistics data sent in application/xml ${xmlString}`);
       }
       else if (clientAccept === "text/html") {
-
-        console.log('here3')
         res.setHeader("Content-Type", "text/html");
         res.setHeader("Cache-Control","public, max-age=0");
         let htmlString = '<ul>';
@@ -105,14 +133,13 @@ webserver.get('/stat', (req, res) => {
       }
     }
   });
-});
+};
 
 webserver.post('/vote', (req, res) => {
-  const statisticsFilePath = path.resolve(__dirname, 'data', 'statistics.json');
 
-  fs.readFile(statisticsFilePath, "utf8", function(error, data) {
+  fs.readFile(dynamicStatisticsFilePath, "utf8", function(error, data) {
     if(error) {
-      logLineSync(logFilePath, `readFile "${statisticsFilePath}" error `);
+      logLineSync(logFilePath, `readFile "${dynamicStatisticsFilePath}" error `);
       res.setHeader('Content-type', 'application/json');
       res.status(404).send({errorCode: 0, errorMessage: "vote wasn't saved"});
     }
@@ -124,9 +151,9 @@ webserver.post('/vote', (req, res) => {
         return {...elem};
       });
 
-      fs.writeFile(statisticsFilePath, JSON.stringify(processedData), function(error, data) {
+      fs.writeFile(dynamicStatisticsFilePath, JSON.stringify(processedData), function(error, data) {
         if(error) {
-          logLineSync(logFilePath, `writeFile "${statisticsFilePath}" error `);
+          logLineSync(logFilePath, `writeFile "${dynamicStatisticsFilePath}" error `);
           res.setHeader('Content-type', 'application/json');
           res.status(404).send({errorCode: 0, errorMessage: "vote wasn't saved"});
         }

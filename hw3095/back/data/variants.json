@@ -1,9 +1,9 @@
 [
-  {"code": "green", "text": "Green", "ord": 0, "count": 0},
-  {"code": "blue", "text": "Blue","ord": 1, "count": 0},
-  {"code": "yellow", "text": "Yellow","ord": 2, "count": 0},
-  {"code": "grey", "text": "Grey","ord": 3, "count": 0},
-  {"code": "red", "text": "Red","ord": 4, "count": 0},
-  {"code": "orange", "text": "Orange","ord": 5, "count": 0},
-  {"code": "other", "text": "Other","ord": 6, "count": 0}
+  {"code": "green", "text": "Green", "ord": 0},
+  {"code": "blue", "text": "Blue","ord": 1},
+  {"code": "yellow", "text": "Yellow","ord": 2},
+  {"code": "grey", "text": "Grey","ord": 3},
+  {"code": "red", "text": "Red","ord": 4},
+  {"code": "orange", "text": "Orange","ord": 5},
+  {"code": "other", "text": "Other","ord": 6}
 ]
