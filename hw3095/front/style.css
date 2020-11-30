@@ -18,3 +18,9 @@ input[type='button'] {
 .buttonsWrapper button:not(:last-child) {
   margin-right: 20px;
 }
+
+textarea {
+  margin-top: 20px;
+  width: 400px;
+  height: 200px;
+}

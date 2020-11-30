@@ -11,7 +11,9 @@ async function getInitPageInfo () {
 
   try {
     let statisticsRequestOptions = {
-      method: "POST",
+      headers: {
+        "Accept": "application/json",
+      },
     };
     const statisticsResponse = await fetch('/stat', statisticsRequestOptions);
     const statisticsData = await statisticsResponse.json();
@@ -27,7 +29,7 @@ async function getInitPageInfo () {
       statHeader.textContent = 'Colors statistics:'
       let statList = document.createElement('ul');
 
-      statisticsData.sort( (a, b) => a.ord - b.ord).forEach( item => {
+      statisticsData.forEach( item => {
         let li = document.createElement('li');
         li.textContent = `${item.code}: ${item.count}`;
         statList.append(li);
@@ -49,7 +51,7 @@ async function getInitPageInfo () {
 
       let form = document.createElement('form');
 
-      variantsData.sort( (a, b) => a.ord - b.ord).forEach( item => {
+      variantsData.forEach( item => {
         let input = document.createElement('input');
         input.type = 'radio';
         input.name = 'colorCode';
@@ -76,7 +78,9 @@ async function getInitPageInfo () {
       errorMessage.textContent = 'Voting is unavaliable at the moment.'
       wrapper.append(errorMessage);
     };
-    //wrapper.append(composeButtonsBlock());
+
+    if(Array.isArray(statisticsData) && statisticsData.length)
+      wrapper.append(composeButtonsBlock());
     app.append(wrapper);
   }
   catch (error) {
@@ -104,10 +108,11 @@ async function sendVote() {
 
       if (voteResponse.status === 200) {
         let statisticsRequestOptions = {
-          method: "POST",
+          headers: {
+            "Accept": "application/json",
+          },
         };
-        const statisticsResponse = await fetch("/stat", statisticsRequestOptions
-        );
+        const statisticsResponse = await fetch("/stat", statisticsRequestOptions);
         const statisticsData = await statisticsResponse.json();
 
         let wrapper = document.createElement("div");
@@ -120,9 +125,7 @@ async function sendVote() {
           statHeader.textContent = "Colors statistics:";
           let statList = document.createElement("ul");
 
-          statisticsData
-            .sort((a, b) => a.ord - b.ord)
-            .forEach((item) => {
+          statisticsData.forEach((item) => {
               let li = document.createElement("li");
               li.textContent = `${item.code}: ${item.count}`;
               statList.append(li);
@@ -135,15 +138,16 @@ async function sendVote() {
           let errorMessage = document.createElement("h2");
           errorMessage.textContent = "Voting is unavaliable at the moment.";
           wrapper.append(errorMessage);
-        }
+        };
 
-        //wrapper.append(composeButtonsBlock());
+        if (Array.isArray(statisticsData) && statisticsData.length)
+          wrapper.append(composeButtonsBlock());
         app.append(wrapper);
       }
       else {
         alert("Vote hasn't been accepted. Please, fill the form again.");
         getInitPageInfo();
-      }
+      };
     }
     catch (error) {
       console.error(`Error message: ${error.message}`);
@@ -159,7 +163,7 @@ function composeStatBlock(statisticsData) {
   statHeader.textContent = 'Colors statistics:'
   let statList = document.createElement('ul');
 
-  statisticsData.sort( (a, b) => a.ord - b.ord).forEach( item => {
+  statisticsData.forEach( item => {
     let li = document.createElement('li');
     li.textContent = `${item.code}: ${item.count}`;
     statList.append(li);
@@ -169,54 +173,67 @@ function composeStatBlock(statisticsData) {
   return statWrapper;
 };
 
-// function composeButtonsBlock() {
-//   let buttonsWrapper = document.createElement('div');
-//   buttonsWrapper.className = 'buttonsWrapper';
+function composeButtonsBlock() {
+  let buttonsWrapper = document.createElement('div');
+  buttonsWrapper.className = 'buttonsWrapper';
 
-//   let jsonBtn = document.createElement('button');
-//   jsonBtn.textContent = 'Download statistics in json';
-//   jsonBtn.onclick = () => downloadJson();
+  let jsonBtn = document.createElement('button');
+  jsonBtn.textContent = 'Show statistics in json';
+  jsonBtn.onclick = () => loadJson();
 
-//   let XMLBtn = document.createElement('button');
-//   XMLBtn.textContent = 'Download statistics in XML';
-//   XMLBtn.onclick = () => downloadXML();
+  let XMLBtn = document.createElement('button');
+  XMLBtn.textContent = 'Show statistics in XML';
+  XMLBtn.onclick = () => loadXML();
 
-//   let HTMLBtn = document.createElement('button');
-//   HTMLBtn.textContent = 'Download statistics in HTML';
-//   HTMLBtn.onclick = () => downloadHTML();
+  let HTMLBtn = document.createElement('button');
+  HTMLBtn.textContent = 'Show statistics in HTML';
+  HTMLBtn.onclick = () => loadHTML();
 
-//   buttonsWrapper.append(jsonBtn, XMLBtn, HTMLBtn);
+  let br = document.createElement('br');
 
-//   return buttonsWrapper;
-// };
+  let textArea = document.createElement('textarea');
+  textArea.id = 'dataContainer';
 
-// async function downloadJson() {
-//   let downloadStatRequestOptions = {
-//     method: "POST",
-//     headers: {
-//       "Accept": "application/json",
-//     },
-//   };
-//   const downloadStatResponse = await fetch("/stat-download", downloadStatRequestOptions);
-//   console.log(downloadStatResponse)
-// };
+  buttonsWrapper.append(jsonBtn, XMLBtn, HTMLBtn, br, textArea);
 
-// async function downloadXML() {
-//   let downloadStatRequestOptions = {
-//     method: "POST",
-//     headers: {
-//       "Accept": "application/xml",
-//     },
-//   };
-//   const downloadStatResponse = await fetch("/stat-download", downloadStatRequestOptions);
-// };
+  return buttonsWrapper;
+};
 
-// async function downloadHTML() {
-//   let downloadStatRequestOptions = {
-//     method: "POST",
-//     headers: {
-//       "Accept": "text/html",
-//     },
-//   };
-//   const downloadStatResponse = await fetch("/stat-download", downloadStatRequestOptions);
-// };
+async function loadJson() {
+  let downloadStatRequestOptions = {
+    headers: {
+      "Accept": "application/json",
+    },
+  };
+  const downloadStatResponse = await fetch("/stat", downloadStatRequestOptions);
+  let data = await downloadStatResponse.json();
+
+  let textArea = document.getElementById('dataContainer');
+  textArea.value = JSON.stringify(data);
+};
+
+async function loadXML() {
+  let downloadStatRequestOptions = {
+    headers: {
+      "Accept": "application/xml",
+    },
+  };
+  const downloadStatResponse = await fetch("/stat", downloadStatRequestOptions);
+  let data = await downloadStatResponse.text();
+
+  let textArea = document.getElementById('dataContainer');
+  textArea.value = data;
+};
+
+async function loadHTML() {
+  let downloadStatRequestOptions = {
+    headers: {
+      "Accept": "text/html",
+    },
+  };
+  const downloadStatResponse = await fetch("/stat", downloadStatRequestOptions);
+  let data = await downloadStatResponse.text();
+
+  let textArea = document.getElementById('dataContainer');
+  textArea.value = data;
+};
