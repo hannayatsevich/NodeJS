@@ -1,0 +1,29 @@
+body {
+  background-color: rgb(164, 221, 156);
+}
+
+.error {
+  color: red;
+}
+
+.warn {
+  color: yellow;
+}
+
+label {
+  display: inline-block;
+  width: 150px;
+  margin-bottom: 10px;
+}
+
+.radio {
+  width: 50px;
+}
+
+.checkbox {
+  width: 50px;
+}
+
+input {
+  margin-bottom: 20px;
+}
