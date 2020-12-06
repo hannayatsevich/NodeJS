@@ -15,7 +15,7 @@ let validationInfo = {
   errorMessage: '',
 };
 
-webserver.use(express.urlencoded());
+webserver.use(express.urlencoded({ extended: true }));
 
 webserver.use( (req, res, next) => {
   logLineAsync(logFilePath, `${req.originalUrl} request`);
