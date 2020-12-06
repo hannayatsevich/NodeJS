@@ -7,7 +7,7 @@ const logFilePath = path.resolve(__dirname, 'log', '_server.log');
 
 const webserver = express();
 
-const port  = 3010;
+const port  = 3013;
 
 let validationInfo = {
   isValid: true,
@@ -24,7 +24,7 @@ webserver.use( (req, res, next) => {
 
 webserver.use('/style.css', express.static(path.resolve(__dirname, '..', 'front', 'style.css')));
 
-webserver.get('/form2', (req, res, next) => {
+webserver.get('/form', (req, res, next) => {
   let filePath = path.resolve(__dirname, '..', 'front', 'index.html');
   fs.readFile(filePath, 'utf8', (err, text) => {
     if(err)
@@ -72,7 +72,7 @@ webserver.get('/form2', (req, res, next) => {
 
 
 
-webserver.post('/service2', (req, res, next) => {
+webserver.post('/service', (req, res, next) => {
   validationInfo = check(req.body);
 
   if(validationInfo.isValid) {
@@ -86,7 +86,7 @@ webserver.post('/service2', (req, res, next) => {
     logLineAsync(logFilePath, `form is valid, redirected to /result?${queryString}`);
   }
   else {
-    res.redirect('/form2');
+    res.redirect('/form');
     logLineAsync(logFilePath, `form is not valid, redirected to /form2`);
   };
 });
