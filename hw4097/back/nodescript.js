@@ -9,12 +9,6 @@ const webserver = express();
 
 const port  = 3013;
 
-let validationInfo = {
-  isValid: true,
-  queryObject: {},
-  errorMessage: '',
-};
-
 webserver.use(express.urlencoded({ extended: true }));
 
 webserver.use( (req, res, next) => {
@@ -30,11 +24,28 @@ webserver.get('/form', (req, res, next) => {
     if(err)
       logLineAsync(logFilePath, `failed read file ${filePath}`);
     else {
-      let newText = text;
+      res.send(text);
+      logLineAsync(logFilePath, `text sent: ${text}`);
+    }
+  });
+});
 
-      if(!validationInfo.isValid) {
+webserver.post('/service', (req, res, next) => {
+  let validationInfo = check(req.body);
+
+  if(validationInfo.isValid) {
+    let queryString = getStringFromQuery(req.body);
+    res.redirect(`/result?${queryString}`);
+    logLineAsync(logFilePath, `form is valid, redirected to /result?${queryString}`);
+  }
+  else {
+    let filePath = path.resolve(__dirname, '..', 'front', 'index.html');
+    fs.readFile(filePath, 'utf8', (err, text) => {
+      if(err)
+        logLineAsync(logFilePath, `failed read file ${filePath}`);
+      else {
+        let newText = text;
         newText = text.split('</h1>').join(`</h1><h3 class="error">Please, fill the form carefully</h3>${validationInfo.errorMessage}`);
-
         let savedPageData = validationInfo.queryObject;
         for (let key in savedPageData) {
           switch(key) {
@@ -54,40 +65,14 @@ webserver.get('/form', (req, res, next) => {
               break;
             default: newText = newText.split(templateString(key, savedPageData[key]).split).join(templateString(key, savedPageData[key]).join);
           }
-        }
+        };
+
+        res.send(newText);
+
+        logLineAsync(logFilePath, `text sent: ${newText}`);
       }
-
-      validationInfo = {
-        isValid: true,
-        queryObject: {},
-        errorMessage: '',
-      };
-
-      res.send(newText);
-
-      logLineAsync(logFilePath, `text sent: ${newText}`);
-    }
-  });
-});
-
-
-
-webserver.post('/service', (req, res, next) => {
-  validationInfo = check(req.body);
-
-  if(validationInfo.isValid) {
-    validationInfo = {
-      isValid: true,
-      queryObject: {},
-      errorMessage: '',
-    };
-    let queryString = getStringFromQuery(req.body);
-    res.redirect(`/result?${queryString}`);
-    logLineAsync(logFilePath, `form is valid, redirected to /result?${queryString}`);
-  }
-  else {
-    res.redirect('/form');
-    logLineAsync(logFilePath, `form is not valid, redirected to /form2`);
+    });
+    logLineAsync(logFilePath, `form is not valid, send form back`);
   };
 });
 
@@ -145,7 +130,7 @@ const check = (queryObject) => {
 
   return {
     isValid,
-    errorMessage,
+    errorMessage: isValid ? '' : errorMessage,
     queryObject,
   };
 };
