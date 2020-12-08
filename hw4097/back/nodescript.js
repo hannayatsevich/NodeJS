@@ -17,18 +17,7 @@ webserver.use( (req, res, next) => {
 });
 
 webserver.use('/style.css', express.static(path.resolve(__dirname, '..', 'front', 'style.css')));
-
-webserver.get('/form', (req, res, next) => {
-  let filePath = path.resolve(__dirname, '..', 'front', 'index.html');
-  fs.readFile(filePath, 'utf8', (err, text) => {
-    if(err)
-      logLineAsync(logFilePath, `failed read file ${filePath}`);
-    else {
-      res.send(text);
-      logLineAsync(logFilePath, `text sent: ${text}`);
-    }
-  });
-});
+webserver.use('/form', express.static(path.resolve(__dirname, '..', 'front', 'index.html')));
 
 webserver.post('/service', (req, res, next) => {
   let validationInfo = check(req.body);
