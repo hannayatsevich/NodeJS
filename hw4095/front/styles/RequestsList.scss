@@ -1,0 +1,17 @@
+.SavedRequestsList {
+  background-color: aquamarine;
+  width: 40%;
+
+  &__list-item {
+    padding: 20px;
+    margin-bottom: 10px;
+    border: 1px solid yellow;
+
+    &.get {
+      background-color: red;
+    }
+    &.post {
+      background-color: blue;
+    }
+  }
+}

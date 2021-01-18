@@ -1,0 +1,24 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+li {
+  list-style-type: none;
+}
+
+.PostmanWindow {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background-color: blueviolet;
+  &__controls {
+    display: flex;
+    flex-direction: row;
+  }
+  &__requests {
+    display: flex;
+    flex-direction: row;
+  }
+}

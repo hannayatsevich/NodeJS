@@ -1,0 +1,12 @@
+.RequestsForm {
+
+
+  &__blocks-names {
+    display: flex;
+    flex-direction: row;
+  }
+  &__block-name {
+    cursor: pointer;
+    padding: 10px;
+  }
+}

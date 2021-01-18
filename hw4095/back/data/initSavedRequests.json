@@ -1,0 +1,67 @@
+[
+  {
+    "presavedRequest": true,
+    "requestName": "Form results",
+    "requestMethod": "GET",
+    "requestUrl": "http://188.166.41.101:3013/result",
+    "requestData": {
+      "params": [
+        {"name": "firstname", "value": "Hanna"},
+        {"name": "secondname", "value": "Adams"},
+        {"name": "age", "value": "20"}
+      ],
+      "headers": [
+        {"name": "Content-type", "value": "text/plain"}
+      ],
+      "body": ""
+    }
+  },
+  {
+    "presavedRequest": true,
+    "requestName": "Quotes",
+    "requestMethod": "GET",
+    "requestUrl": "https://type.fit/api/quotes",
+    "requestData": {
+      "params": [
+
+      ],
+      "headers": [
+      ],
+      "body": ""
+    }
+  },
+  {
+    "presavedRequest": true,
+    "requestName": "Weather",
+    "requestMethod": "GET",
+    "requestUrl": "https://api.openweathermap.org/data/2.5/weather",
+    "requestData": {
+      "params": [
+        {"name": "q", "value": "Minsk"},
+        {"name": "lang", "value": "en"},
+        {"name": "appid", "value": "b4ba03cb62a758201ea47544d4647d92"},
+        {"name": "units", "value": "metric"}
+      ],
+      "headers": [
+      ],
+      "body": ""
+    }
+  },
+  {
+    "presavedRequest": false,
+    "requestName": "Weather2",
+    "requestMethod": "GET",
+    "requestUrl": "https://api.openweathermap.org/data/2.5/weather",
+    "requestData": {
+      "params": [
+        {"name": "q", "value": "Minsk"},
+        {"name": "lang", "value": "en"},
+        {"name": "appid", "value": "b4ba03cb62a758201ea47544d4647d92"},
+        {"name": "units", "value": "metric"}
+      ],
+      "headers": [
+      ],
+      "body": ""
+    }
+  }
+]

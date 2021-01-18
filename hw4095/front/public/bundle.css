@@ -1,0 +1,8 @@
+.SavedRequestsList{background-color:aquamarine;width:40%}.SavedRequestsList__list-item{padding:20px;margin-bottom:10px;border:1px solid yellow}.SavedRequestsList__list-item.get{background-color:red}.SavedRequestsList__list-item.post{background-color:blue}
+
+.RequestsForm__blocks-names{display:flex;flex-direction:row}.RequestsForm__block-name{cursor:pointer;padding:10px}
+
+.ResponseView__status.red{color:red}.ResponseView__status.green{color:green}.ResponseView__status.blue{color:blue}.ResponseView__status.yellow{color:yellow}.ResponseView__header-name{font-weight:600}
+
+*{margin:0;padding:0;box-sizing:border-box}li{list-style-type:none}.PostmanWindow{display:flex;flex-direction:column;height:100vh;width:100vw;background-color:blueviolet}.PostmanWindow__controls{display:flex;flex-direction:row}.PostmanWindow__requests{display:flex;flex-direction:row}
+
