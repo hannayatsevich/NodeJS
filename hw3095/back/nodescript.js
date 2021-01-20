@@ -136,7 +136,8 @@ const getAndSendStat = (req, res) => {
 };
 
 webserver.post('/vote', (req, res) => {
-console.log(req.body.colorCode)
+  console.log(req.body)
+  console.log(req.body.colorCode)
   fs.readFile(dynamicStatisticsFilePath, "utf8", function(error, data) {
     if(error) {
       logLineSync(logFilePath, `readFile "${dynamicStatisticsFilePath}" error `);
