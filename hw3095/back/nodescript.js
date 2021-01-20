@@ -15,7 +15,7 @@ webserver.use( (req, res, next) => {
   logLineSync(logFilePath, `${req.originalUrl} request`);
   next();
 });
-webserver.use(express.urlencoded());
+webserver.use(express.urlencoded({ extended: true }));
 webserver.use(express.json());
 
 webserver.use('/vote-page', express.static(path.resolve(__dirname, '..', 'front', 'index.html')));
@@ -136,7 +136,7 @@ const getAndSendStat = (req, res) => {
 };
 
 webserver.post('/vote', (req, res) => {
-
+console.log(req.body.colorCode)
   fs.readFile(dynamicStatisticsFilePath, "utf8", function(error, data) {
     if(error) {
       logLineSync(logFilePath, `readFile "${dynamicStatisticsFilePath}" error `);
