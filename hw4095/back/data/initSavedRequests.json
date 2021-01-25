@@ -6,12 +6,24 @@
     "requestUrl": "http://188.166.41.101:3013/result",
     "requestData": {
       "params": [
-        {"name": "firstname", "value": "Hanna"},
-        {"name": "secondname", "value": "Adams"},
-        {"name": "age", "value": "20"}
+        {
+          "name": "firstname",
+          "value": "Hanna"
+        },
+        {
+          "name": "secondname",
+          "value": "Adams"
+        },
+        {
+          "name": "age",
+          "value": "20"
+        }
       ],
       "headers": [
-        {"name": "Content-type", "value": "text/plain"}
+        {
+          "name": "Content-type",
+          "value": "text/plain"
+        }
       ],
       "body": ""
     }
@@ -22,11 +34,8 @@
     "requestMethod": "GET",
     "requestUrl": "https://type.fit/api/quotes",
     "requestData": {
-      "params": [
-
-      ],
-      "headers": [
-      ],
+      "params": [],
+      "headers": [],
       "body": ""
     }
   },
@@ -37,30 +46,177 @@
     "requestUrl": "https://api.openweathermap.org/data/2.5/weather",
     "requestData": {
       "params": [
-        {"name": "q", "value": "Minsk"},
-        {"name": "lang", "value": "en"},
-        {"name": "appid", "value": "b4ba03cb62a758201ea47544d4647d92"},
-        {"name": "units", "value": "metric"}
+        {
+          "name": "q",
+          "value": "Minsk"
+        },
+        {
+          "name": "lang",
+          "value": "en"
+        },
+        {
+          "name": "appid",
+          "value": "b4ba03cb62a758201ea47544d4647d92"
+        },
+        {
+          "name": "units",
+          "value": "metric"
+        }
       ],
+      "headers": [],
+      "body": ""
+    }
+  },
+  {
+    "presavedRequest": true,
+    "requestName": "Pet POST",
+    "requestMethod": "POST",
+    "requestUrl": "https://petstore.swagger.io/v2/pet",
+    "requestData": {
+      "params": [],
       "headers": [
+        {
+          "name": "Content-type",
+          "value": "application/json"
+        }
+      ],
+      "body": "{\n  \"id\": 1010,\n  \"category\": {\n    \"id\": 111,\n    \"name\": \"cat\"\n  },\n  \"name\": \"Honey Cat\",\n  \"photoUrls\": [\n    \"https://pbs.twimg.com/profile_images/948294484596375552/RyGNqDEM_400x400.jpg\"\n  ],\n  \"tags\": [\n    {\n      \"id\": 11,\n      \"name\": \"blue eye\"\n    }\n  ],\n  \"status\": \"available\"\n}"
+    }
+  },
+  {
+    "presavedRequest": true,
+    "requestName": "Pet GET",
+    "requestMethod": "GET",
+    "requestUrl": "https://petstore.swagger.io/v2/pet/1010",
+    "requestData": {
+      "params": [],
+      "headers": [],
+      "body": ""
+    }
+  },
+  {
+    "presavedRequest": true,
+    "requestName": "Pets with status GET",
+    "requestMethod": "GET",
+    "requestUrl": "https://petstore.swagger.io/v2/pet/findByStatus",
+    "requestData": {
+      "params": [
+        {
+          "name": "status",
+          "value": "sold"
+        }
+      ],
+      "headers": [],
+      "body": ""
+    }
+  },
+  {
+    "presavedRequest": true,
+    "requestName": "Pet PUT",
+    "requestMethod": "PUT",
+    "requestUrl": "https://petstore.swagger.io/v2/pet",
+    "requestData": {
+      "params": [],
+      "headers": [
+        {
+          "name": "Content-type",
+          "value": "application/json"
+        },
+        {
+          "name": "",
+          "value": ""
+        }
+      ],
+      "body": "{\n  \"id\": 1010,\n  \"category\": {\n    \"id\": 111,\n    \"name\": \"catty\"\n  },\n  \"name\": \"Honey\",\n  \"photoUrls\": [\n    \"https://pbs.twimg.com/profile_images/948294484596375552/RyGNqDEM_400x400.jpg\"\n  ],\n  \"tags\": [\n    {\n      \"id\": 11,\n      \"name\": \"blue eye\"\n    }\n  ],\n  \"status\": \"available\"\n}"
+    }
+  },
+  {
+    "presavedRequest": true,
+    "requestName": "Pet DELETE",
+    "requestMethod": "DELETE",
+    "requestUrl": "https://petstore.swagger.io/v2/pet/1010",
+    "requestData": {
+      "params": [],
+      "headers": [
+        {
+          "name": "api_key",
+          "value": "special-key"
+        }
       ],
       "body": ""
     }
   },
   {
-    "presavedRequest": false,
-    "requestName": "Weather2",
+    "presavedRequest": true,
+    "requestName": "User POST",
+    "requestMethod": "POST",
+    "requestUrl": "https://petstore.swagger.io/v2/user/createWithArray",
+    "requestData": {
+      "params": [],
+      "headers": [
+        {
+          "name": "content-type",
+          "value": "application/json"
+        }
+      ],
+      "body": "[\n  {\n    \"id\": 9999999,\n    \"username\": \"HannaY\",\n    \"firstName\": \"Hanna\",\n    \"lastName\": \"Y\",\n    \"email\": \"hanna@gmail.com\",\n    \"password\": \"123\",\n    \"phone\": \"123\",\n    \"userStatus\": 1\n  }\n]"
+    }
+  },
+  {
+    "presavedRequest": true,
+    "requestName": "User GET",
     "requestMethod": "GET",
-    "requestUrl": "https://api.openweathermap.org/data/2.5/weather",
+    "requestUrl": "https://petstore.swagger.io/v2/user/HannaY",
+    "requestData": {
+      "params": [],
+      "headers": [],
+      "body": ""
+    }
+  },
+  {
+    "presavedRequest": true,
+    "requestName": "User login GET",
+    "requestMethod": "GET",
+    "requestUrl": "https://petstore.swagger.io/v2/user/login",
     "requestData": {
       "params": [
-        {"name": "q", "value": "Minsk"},
-        {"name": "lang", "value": "en"},
-        {"name": "appid", "value": "b4ba03cb62a758201ea47544d4647d92"},
-        {"name": "units", "value": "metric"}
+        {
+          "name": "username",
+          "value": "HannaY"
+        },
+        {
+          "name": "password",
+          "value": "123"
+        }
       ],
+      "headers": [],
+      "body": ""
+    }
+  },
+  {
+    "presavedRequest": true,
+    "requestName": "User PUT",
+    "requestMethod": "PUT",
+    "requestUrl": "https://petstore.swagger.io/v2/user/HannaY",
+    "requestData": {
+      "params": [],
       "headers": [
+        {
+          "name": "content-type",
+          "value": "application/json"
+        }
       ],
+      "body": "{\n   \"id\": 9999999,\n    \"username\": \"HannaY\",\n    \"firstName\": \"Hanna\",\n    \"lastName\": \"Ya\",\n    \"email\": \"hanna@gmail.com\",\n    \"password\": \"123\",\n    \"phone\": \"123\",\n    \"userStatus\": 1\n }"
+    }
+  },
+  {
+    "presavedRequest": true,
+    "requestName": "User DELETE",
+    "requestMethod": "DELETE",
+    "requestUrl": "https://petstore.swagger.io/v2/user/HannaY",
+    "requestData": {
+      "params": [],
+      "headers": [],
       "body": ""
     }
   }

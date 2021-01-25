@@ -64,14 +64,30 @@ class App extends React.PureComponent {
       });
   };
 
-  cbSaveRequest = async (requestData) => {
-    console.log(requestData)
-    this.setState({
-      requests: await this.fetchSavedRequest(requestData),
-    });
+  cbAddNewRequest = () => {
+    this.cbChooseRequest(null);
   };
 
-  fetchSavedRequest = async (requestData) => {
+  cbSaveRequest = async (requestData) => {
+    if(requestData.presavedRequest)
+      alert("Can't change presaved request");
+    else
+      this.setState({
+        requests: await this.fetchSaveRequest(requestData, 'ADD'),
+      });
+  };
+
+  cbDeleteRequest = async (requestData) => {
+    if(requestData.presavedRequest)
+      alert("Can't delete presaved request");
+    else
+      this.setState({
+        requests: await this.fetchSaveRequest(requestData, 'DELETE'),
+        requestChosenName: null,
+      });
+  };
+
+  fetchSaveRequest = async (requestData, action) => {
     try {
       let fetchOptions = {
         method: 'POST',
@@ -79,18 +95,17 @@ class App extends React.PureComponent {
           'Accept': 'application/json',
           'Content-type': 'application/json',
         },
-        body: JSON.stringify(requestData),
+        body: JSON.stringify({requestData, action}),
       };
 
       let response = await fetch('/save-request', fetchOptions);
       let data = await response.json();
-      console.log(data)
       if(data.errorCode === "0") {
         return data.data;
       }
       else {
         console.error(`errorCode: ${data.errorCode}, errorMessage: ${data.errorMessage}`);
-        alert(`errorCode: ${data.errorCode}, errorMessage: ${data.errorMessage}`)
+        alert(data.errorMessage)
       }
     }
     catch (err) {
@@ -107,7 +122,6 @@ class App extends React.PureComponent {
   };
 
   fetchSendRequest = async (requestData) => {
-    console.log('requestData', requestData)
     try {
       let fetchOptions = {
         method: 'POST',
@@ -120,27 +134,28 @@ class App extends React.PureComponent {
 
       let response = await fetch('/send-request', fetchOptions);
       let data = await response.json();
-      console.log(data)
       if(data.errorCode === "0") {
-        console.log('data.data', data.data)
         return data.data;
       }
       else {
         console.error(`errorCode: ${data.errorCode}, errorMessage: ${data.errorMessage}`);
+        alert(data.errorMessage);
       }
     }
     catch (err) {
       console.error(`fetch failed ${err}`);
     };
-    return [];
+    return null;
   };
 
   render(){
     const {
       blockClassName,
       cbChooseRequest,
+      cbAddNewRequest,
       cbSaveRequest,
       cbSendRequest,
+      cbDeleteRequest,
       changePresavedRequestsStatus,
       state: {
         requests,
@@ -149,36 +164,35 @@ class App extends React.PureComponent {
         responseData,
       }
     } = this;
-    console.log('render');
-    console.log('responseData', responseData);
-    console.log('App', requests);
-    console.log('App', requestChosenName);
+
     return (
       <div className = {`${blockClassName}`}>
         <div className = {`${blockClassName}__controls`}>
-          <button className = {`${blockClassName}__btn-add-request`} onClick = {() => cbChooseRequest(null)}>Add new request</button>
-          <div>
+          <div className = {`${blockClassName}__filter`}>
             <input type = 'checkbox' id = 'isPresavedRequests' checked = {showPresavedRequests} onChange = {changePresavedRequestsStatus}/>
             <label htmlFor = 'isPresavedRequests'>Show presaved requests</label>
           </div>
         </div>
-        <div className = {`${blockClassName}__requests`}>
+        <div className = {`${blockClassName}__requests-data`}>
           <RequestsList
             requests = {showPresavedRequests ? requests : requests.filter(request => !request.presavedRequest)}
+            currentRequest = {requestChosenName}
             cbChooseRequest = {cbChooseRequest}
           />
-          <RequestForm
-            request = {requests.find(request => request.requestName === requestChosenName) }
-            cbSaveRequest = {cbSaveRequest}
-            cbSendRequest = {cbSendRequest}
-          />
-        </div>
-        <div className = {`${blockClassName}__response`}>
-          { responseData && <ResponseView responseData = {responseData}/>}
+          <div className = {`${blockClassName}__request`}>
+            <RequestForm
+              request = {requests.find(request => request.requestName === requestChosenName) }
+              cbSaveRequest = {cbSaveRequest}
+              cbSendRequest = {cbSendRequest}
+              cbAddNewRequest = {cbAddNewRequest}
+              cbDeleteRequest = {cbDeleteRequest}
+            />
+            { responseData && <ResponseView responseData = {responseData}/>}
+          </div>
         </div>
       </div>
     )
   }
-}
+};
 
 export default App;

@@ -11,6 +11,7 @@ class RequestsList extends React.PureComponent {
       requestUrl: PropTypes.string,
       requestMethod: PropTypes.string,
     })),
+    currentRequest: PropTypes.string,
     cbChooseRequest: PropTypes.func,
   };
 
@@ -23,7 +24,6 @@ class RequestsList extends React.PureComponent {
   chooseRequest = (url) => {
     if(this.props.cbChooseRequest)
       this.props.cbChooseRequest(url);
-    else  console.log('chooseRequest', url)
   };
 
   render(){
@@ -31,7 +31,8 @@ class RequestsList extends React.PureComponent {
       blockClassName,
       chooseRequest,
       props:{
-        requests
+        requests,
+        currentRequest,
       }
     } = this;
     return (
@@ -40,7 +41,7 @@ class RequestsList extends React.PureComponent {
           { (!!requests && !!requests.length) && requests.map( (request, index) =>
             <li
               key = {index}
-              className = {`${blockClassName}__list-item ${request.requestMethod.toLowerCase()}`}
+              className = {`${blockClassName}__list-item ${request.requestMethod.toLowerCase()} ${currentRequest === request.requestName ? 'active' : ''}`}
               onClick = {() => chooseRequest(request.requestName)}
             >
               <p>{request.requestName}</p>

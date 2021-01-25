@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import '../../styles/ResponseView.scss';
 
-class ResponseView extends React.PureComponent {
+class ResponseView extends React.Component {
 
   static propTypes = {
     responseData: PropTypes.arrayOf(PropTypes.shape({
@@ -16,7 +16,6 @@ class ResponseView extends React.PureComponent {
   constructor(props) {
     super(props);
     this.blockClassName = 'ResponseView';
-
   };
 
 
@@ -27,9 +26,12 @@ class ResponseView extends React.PureComponent {
         responseData
       }
     } = this;
+
     return (
       <div className = {`${blockClassName}`}>
-        <h3 className = {`${blockClassName}__block-name`}>Status:
+        <h2 className = {`${blockClassName}__block-name`}>Response</h2>
+        <h3>
+          Status:
           <span className = {`${blockClassName}__status ${
             (responseData.status >= 200 && responseData.status <= 299)
               ? 'green'
@@ -52,15 +54,16 @@ class ResponseView extends React.PureComponent {
                 key = {index}
                 className = {`${blockClassName}__headers-list-item`}
               >
-                <span  className = {`${blockClassName}__header-name`}>{`${header.name}: `}</span>
-                <span>{`${header.value}`}</span>
+                <span className = {`${blockClassName}__header-name`}>{`${header.name}: `}</span>
+                <span className = {`${blockClassName}__header-value`}>{`${header.value}`}</span>
               </li>
             )}
           </ul>
           </React.Fragment>
 
         }
-        <textarea>{responseData.body}</textarea>
+        <h3>Body:</h3>
+        <textarea value={responseData.body}></textarea>
       </div>
     )
   }
