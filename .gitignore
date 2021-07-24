@@ -1,5 +1,4 @@
-# This file was taken from RSS tasks 2019Q3
-
+**/.idea
 # Logs
 logs
 *.log
@@ -31,7 +30,6 @@ build/Release
 # Dependency directories
 node_modules
 jspm_packages
-dataForGzip
 
 # Optional npm cache directory
 .npm
@@ -42,3 +40,9 @@ dataForGzip
 # Specific files
 /hw3095/back/data/dynamic-statistics.json
 /hw4095/back/data/savedRequests.json
+/hw5695/back/uploadedFilesInfoJSON.json
+
+# Directories
+dataForGzip
+uploadedFiles
+uploadedTempFiles
