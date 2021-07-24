@@ -1,0 +1,18 @@
+@import "~bootstrap/scss/bootstrap";
+
+.FileStorage {
+
+  &__progress-bar-wrapper {
+    height: 20px;
+  }
+
+  &__progress-bar {
+    &.active {
+      transition: width .5s linear;
+    }
+  }
+
+  &__progress-bar-num {
+    height: 20px;
+  }
+}
