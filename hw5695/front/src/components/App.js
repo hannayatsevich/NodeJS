@@ -92,7 +92,7 @@ class App extends React.PureComponent {
   };
 
   setWSConnection = async (callbackOnGetId) => {
-    const url = 'ws://localhost:5696';
+    const url = `ws://${location.hostname}:5696`;
     let connection = new WebSocket(url); // сокет-соединение с сервером
     let self = this;
 
