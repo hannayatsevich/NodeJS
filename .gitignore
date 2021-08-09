@@ -1,4 +1,4 @@
-**/.idea
+/.idea
 # Logs
 logs
 *.log
@@ -41,6 +41,9 @@ jspm_packages
 /hw3095/back/data/dynamic-statistics.json
 /hw4095/back/data/savedRequests.json
 /hw5695/back/uploadedFilesInfoJSON.json
+
+#configs
+db_config.js
 
 # Directories
 dataForGzip
