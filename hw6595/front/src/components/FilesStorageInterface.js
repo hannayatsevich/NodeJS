@@ -164,6 +164,7 @@ class FilesStorageInterface extends React.PureComponent {
                 headers: {
                     'Accept': 'application/json',
                     // 'Content-type': 'multipart/form-data',
+                    'auth-token-string': localStorage.getItem('files_storage_auth_token') || '',
                 },
                 body: formData,
             };
