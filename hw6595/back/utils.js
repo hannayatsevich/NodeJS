@@ -9,7 +9,7 @@ function getRandomString(len, charSet) {
 }
 
 function getSubmitionUrl(login) {
-    return `http://188.166.41.101:6195/submit-registration?login=${login}`
+    return `http://188.166.41.101:6197/submit-registration?login=${login}`
 }
 
 const emailSubject = 'Подтверждение регистрации';
