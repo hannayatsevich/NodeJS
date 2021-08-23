@@ -40,10 +40,13 @@ jspm_packages
 # Specific files
 /hw3095/back/data/dynamic-statistics.json
 /hw4095/back/data/savedRequests.json
-/hw5695/back/uploadedFilesInfoJSON.json
 
 #configs
 db_config.js
+nodemailer_config.js
+
+#files
+uploadedFilesInfoJSON.json
 
 # Directories
 dataForGzip
