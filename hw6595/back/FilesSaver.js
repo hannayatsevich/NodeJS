@@ -286,7 +286,7 @@ webserver.get('/submit-registration', async (req, res, next) => {
       if(userData.affectedRows === 1) {
         // добавим пользователю (любому) роль редактора
         await modifyQueryFactory(mysqlconnection, `insert into users_roles(login,role_code) values(?,?)`, [req.query.login, 'redactor']);
-        res.redirect('http://188.166.41.101:6197/files-storage');
+        res.redirect('http://188.166.41.101:5697/files-storage');
       }
       else {
         // если пользователя нет или пользователь уже активен
